@@ -1,17 +1,15 @@
 ﻿using Basis.CodeChallenge.API.Services;
-using Basis.CodeChallenge.API.Services.Interfaces;
 using Basis.CodeChallenge.API.ViewModels.Livro;
 using Basis.CodeChallenge.Core.Tests.Mocks;
 using Basis.CodeChallenge.Domain.Interfaces.Notifications;
 using Basis.CodeChallenge.Domain.Interfaces.Repository;
-using Basis.CodeChallenge.Domain.Interfaces.UoW;
 using Basis.CodeChallenge.Unit.Tests.Configuration;
+using FluentAssertions;
 using Moq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using FluentAssertions; 
 
 namespace Basis.CodeChallenge.Unit.Tests.Services
 {
@@ -21,7 +19,7 @@ namespace Basis.CodeChallenge.Unit.Tests.Services
         private readonly Mock<IBasisLivroRepository> _BasisLivroRepositoryMock;
 
         private readonly Mock<IDomainNotification> _domainNotificationMock;
-        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
+
         private readonly Mock<ConcurrentDictionary<int, BasisLivroViewModel>> _cache;
 
         public BasisLivroServiceTest()
@@ -29,7 +27,7 @@ namespace Basis.CodeChallenge.Unit.Tests.Services
             _BasisLivroRepositoryMock = new Mock<IBasisLivroRepository>();
 
             _domainNotificationMock = new Mock<IDomainNotification>();
-            _unitOfWorkMock = new Mock<IUnitOfWork>();
+
             _cache = new Mock<ConcurrentDictionary<int, BasisLivroViewModel>>();
         }
 
@@ -40,7 +38,7 @@ namespace Basis.CodeChallenge.Unit.Tests.Services
                 _BasisLivroRepositoryMock.Object,
                 _cache.Object,
                  _domainNotificationMock.Object,
-                 _unitOfWorkMock.Object,
+
                  _mapper);
         }
 
@@ -76,7 +74,7 @@ namespace Basis.CodeChallenge.Unit.Tests.Services
             // Assert
             result.Should().NotBeNull()
                 .And.BeOfType<BasisLivroViewModel>()
-                .And.BeEquivalentTo(expectedLivro);  
+                .And.BeEquivalentTo(expectedLivro);
         }
 
         [Fact]
@@ -95,7 +93,7 @@ namespace Basis.CodeChallenge.Unit.Tests.Services
             // Assert
             result.Should().NotBeNull()
                 .And.BeOfType<BasisLivroViewModel>()
-                .And.BeEquivalentTo(expectedLivro);  
+                .And.BeEquivalentTo(expectedLivro);
         }
 
         [Fact]
@@ -114,7 +112,7 @@ namespace Basis.CodeChallenge.Unit.Tests.Services
             // Assert
             result.Should().NotBeNull()
                 .And.BeOfType<BasisLivroViewModel>()
-                .And.BeEquivalentTo(expectedLivro);  
+                .And.BeEquivalentTo(expectedLivro);
         }
 
         [Fact]

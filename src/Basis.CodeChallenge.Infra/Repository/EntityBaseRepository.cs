@@ -19,16 +19,19 @@ namespace Basis.CodeChallenge.Infra.Repository;
         public virtual void Add(TEntity obj)
         {
             DbSet.Add(obj);
+            Db.SaveChanges();
         }
 
         public virtual void Update(TEntity obj)
         {
             DbSet.Update(obj);
-        }
+            Db.SaveChanges();
+    }
 
         public virtual void Remove(TEntity obj)
         {
             DbSet.Remove(obj);
+            Db.SaveChanges();
         }
 
         public void Dispose()

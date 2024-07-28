@@ -3,10 +3,9 @@ using Basis.CodeChallenge.API.Services.Interfaces;
 using Basis.CodeChallenge.API.ViewModels.Livro;
 using Basis.CodeChallenge.Domain.Interfaces.Notifications;
 using Basis.CodeChallenge.Domain.Interfaces.Repository;
-using Basis.CodeChallenge.Domain.Interfaces.UoW;
 using Basis.CodeChallenge.Domain.Models;
+using Basis.CodeChallenge.Domain.Models.Repository;
 using Basis.CodeChallenge.Domain.Validation.LivroValidation;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,19 +16,19 @@ public class BasisLivroService : IBasisLivroService
 {
     private readonly IBasisLivroRepository _BasisLivroRepository;
     private readonly IDomainNotification _domainNotification;
-    private readonly IUnitOfWork _unitOfWork;
+
     private readonly IMapper _mapper;
-    private readonly ConcurrentDictionary<int, BasisLivroViewModel> _cache;  
+    private readonly ConcurrentDictionary<int, BasisLivroViewModel> _cache;
     public BasisLivroService(
-        IBasisLivroRepository BasisLivroRepository, 
-        ConcurrentDictionary<int, BasisLivroViewModel> cache, 
-        IDomainNotification domainNotification, 
-        IUnitOfWork unitOfWork, 
+        IBasisLivroRepository BasisLivroRepository,
+        ConcurrentDictionary<int, BasisLivroViewModel> cache,
+        IDomainNotification domainNotification,
+
         IMapper mapper)
     {
         _BasisLivroRepository = BasisLivroRepository;
         _domainNotification = domainNotification;
-        _unitOfWork = unitOfWork;
+
         _mapper = mapper;
         _cache = cache;
     }
@@ -65,7 +64,7 @@ public class BasisLivroService : IBasisLivroService
     public async Task<BasisLivroViewModel> AddAsync(BasisLivroViewModel BasisLivroVM)
     {
         BasisLivroViewModel viewModel = null;
- 
+
         var model = _mapper.Map<Livro>(BasisLivroVM);
 
         var validation = await new BasisLivronsertValidation(_BasisLivroRepository).ValidateAsync(model);
@@ -75,12 +74,10 @@ public class BasisLivroService : IBasisLivroService
             _domainNotification.AddNotifications(validation);
             return viewModel;
         }
-        _unitOfWork.BeginTransaction();
-        _BasisLivroRepository.Add(model); 
+        var dbModel = _mapper.Map<LivroDb>(model);
+        _BasisLivroRepository.Add(dbModel);
         _cache.TryAdd(model.CodL, BasisLivroVM);
-        _unitOfWork.BeginCommit();
-        _unitOfWork.Commit();
-        
+      
 
         viewModel = _mapper.Map<BasisLivroViewModel>(model);
 
@@ -98,13 +95,13 @@ public class BasisLivroService : IBasisLivroService
             _domainNotification.AddNotifications(validation);
             return;
         }
-
-        _BasisLivroRepository.Update(model);
+        var dbModel = _mapper.Map<LivroDb>(model);
+        _BasisLivroRepository.Update(dbModel);
         if (_cache.TryGetValue(BasisLivroVM.CodL, out var value))
         {
             _cache.TryUpdate(BasisLivroVM.CodL, BasisLivroVM, value);
         }
-        _unitOfWork.Commit();
+   
     }
 
     public async Task RemoveAsync(BasisLivroViewModel BasisLivroVM)
@@ -118,11 +115,11 @@ public class BasisLivroService : IBasisLivroService
             _domainNotification.AddNotifications(validation);
             return;
         }
-
-        _BasisLivroRepository.Remove(model);
+        var dbModel = _mapper.Map<LivroDb>(model);
+        _BasisLivroRepository.Remove(dbModel);
 
         _cache.TryRemove(model.CodL, out var _);
 
-        _unitOfWork.Commit();
+    
     }
 }

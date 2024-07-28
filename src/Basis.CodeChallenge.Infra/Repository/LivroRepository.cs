@@ -1,14 +1,14 @@
-﻿using Dapper;
-using Basis.CodeChallenge.Domain.Interfaces.Repository;
-using Basis.CodeChallenge.Domain.Models;
+﻿using Basis.CodeChallenge.Domain.Interfaces.Repository;
+using Basis.CodeChallenge.Domain.Models.Repository;
 using Basis.CodeChallenge.Infra.Context;
+using Dapper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Basis.CodeChallenge.Infra.Repository
 {
-    public class LivroRepository : EntityBaseRepository<Livro>, IBasisLivroRepository
+    public class LivroRepository : EntityBaseRepository<LivroDb>, IBasisLivroRepository
     {
         private readonly DapperContext _dapperContext;
 
@@ -18,39 +18,39 @@ namespace Basis.CodeChallenge.Infra.Repository
             _dapperContext = dapperContext;
         }
 
-        public async Task<IEnumerable<Livro>> GetAllAsync()
+        public async Task<IEnumerable<LivroDb>> GetAllAsync()
         {
-            var query = @$"SELECT {nameof(Livro.CodL)}, {nameof(Livro.Titulo)}, {nameof(Livro.Editora)}, {nameof(Livro.Editora)}, {nameof(Livro.AnoPublicacao)}, DateCreated
+            var query = @$"SELECT {nameof(LivroDb.CodL)}, {nameof(LivroDb.Titulo)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.AnoPublicacao)}, DateCreated
                             FROM Livro c";
 
-            return await _dapperContext.DapperConnection.QueryAsync<Livro>(query, null, null, null, null);
-        }
- 
-
-        public async Task<Livro> GetByTituloAsync(string titulo)
-        {
-            var query = @$"SELECT {nameof(Livro.CodL)}, {nameof(Livro.Titulo)}, {nameof(Livro.Editora)}, {nameof(Livro.Editora)}, {nameof(Livro.AnoPublicacao)}, DateCreated
-                            FROM Livro
-                          WHERE {nameof(Livro.Titulo)} = @Titulo";
-
-            return (await _dapperContext.DapperConnection.QueryAsync<Livro>(query, new { Titulo = titulo })).FirstOrDefault();
-        }
-        public async Task<Livro> GetByEditoralAsync(string editora)
-        {
-            var query = @$"SELECT {nameof(Livro.CodL)}, {nameof(Livro.Titulo)}, {nameof(Livro.Editora)}, {nameof(Livro.Editora)}, {nameof(Livro.AnoPublicacao)}, DateCreated
-                            FROM Livro
-                          WHERE {nameof(Livro.Editora)} = @Editora";
-
-            return (await _dapperContext.DapperConnection.QueryAsync<Livro>(query, new { Editora = editora })).FirstOrDefault();
+            return await _dapperContext.DapperConnection.QueryAsync<LivroDb>(query, null, null, null, null);
         }
 
-        public async Task<Livro> GetByIdAsync(int id)
-        {
-            var query = @$"SELECT {nameof(Livro.CodL)}, {nameof(Livro.Titulo)}, {nameof(Livro.Editora)}, {nameof(Livro.Editora)}, {nameof(Livro.AnoPublicacao)}, DateCreated
-                            FROM Livro
-                          WHERE {nameof(Livro.CodL)} = @Id";
 
-            return (await _dapperContext.DapperConnection.QueryAsync<Livro>(query, new { Id = id })).FirstOrDefault();
+        public async Task<LivroDb> GetByTituloAsync(string titulo)
+        {
+            var query = @$"SELECT {nameof(LivroDb.CodL)}, {nameof(LivroDb.Titulo)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.AnoPublicacao)}, DateCreated
+                            FROM Livro
+                          WHERE {nameof(LivroDb.Titulo)} = @Titulo";
+
+            return (await _dapperContext.DapperConnection.QueryAsync<LivroDb>(query, new { Titulo = titulo })).FirstOrDefault();
+        }
+        public async Task<LivroDb> GetByEditoralAsync(string editora)
+        {
+            var query = @$"SELECT {nameof(LivroDb.CodL)}, {nameof(LivroDb.Titulo)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.AnoPublicacao)}, DateCreated
+                            FROM Livro
+                          WHERE {nameof(LivroDb.Editora)} = @Editora";
+
+            return (await _dapperContext.DapperConnection.QueryAsync<LivroDb>(query, new { Editora = editora })).FirstOrDefault();
+        }
+
+        public async Task<LivroDb> GetByIdAsync(int id)
+        {
+            var query = @$"SELECT {nameof(LivroDb.CodL)}, {nameof(LivroDb.Titulo)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.AnoPublicacao)}, DateCreated
+                            FROM Livro
+                          WHERE {nameof(LivroDb.CodL)} = @Id";
+
+            return (await _dapperContext.DapperConnection.QueryAsync<LivroDb>(query, new { Id = id })).FirstOrDefault();
         }
     }
 }

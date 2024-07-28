@@ -1,38 +1,34 @@
-﻿using Basis.CodeChallenge.Domain.Models;
-using System;
-using System.Linq;
+﻿using Basis.CodeChallenge.Domain.Models.Repository;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Basis.CodeChallenge.Infra.Context;
 public class EntityContextSeed
 {
-    private readonly EntityContext _context;
-
-    public EntityContextSeed(EntityContext context)
+    public static class SeedDataFactory
     {
-        this._context = context;
-        this.SeedInitial();
-    }
+        private static List<AutorDb> Autores { get; set; }
+        private static List<AssuntoDb> Assuntos { get; set; }
+        private static List<LivroDb> Livros { get; set; }
 
-    public void SeedInitial()
-    {
-
-        if (!_context.BasisLivros.Any())
+        /// <summary>
+        /// Populate database with default values using migrations
+        /// </summary>
+        /// <param name="modelBuilder"><see cref="ModelBuilder"/></param>
+        public static void SeedData(ModelBuilder modelBuilder)
         {
+            var assunto = new AssuntoDb { CodAs = 1, Descricao = "Zier" };
+            var autor = new AutorDb { CodAu = 1, Nome = "Zier" };
+            var livro = new LivroDb { CodL = 1, Titulo = "Zier", Editora = "Zuveiku", Edicao = 1, AnoPublicacao = "2024" };
 
-            var assunto = new Assunto(descricao: "Zier");
-            var autor = new Autor(nome: "Zier");
-            var livro = new Livro(titulo: "Zier", editora: "Zuveiku", edicao: 1, anoPublicacao: "2024");
-            _context.Add(assunto);
-            _context.Add(autor);
-            _context.Add(livro);
-            var livroAs = new Livro_Assunto(livro.CodL, assunto.CodAs);
-            var livroAt = new Livro_Autor(livro.CodL, autor.CodAu);
-            _context.Add(livroAs);
-            _context.Add(livroAt);
+            // Entities Data
+            modelBuilder.Entity<AutorDb>().HasData(autor);
+            modelBuilder.Entity<AssuntoDb>().HasData(assunto);
+            modelBuilder.Entity<LivroDb>().HasData(livro);
 
+            modelBuilder.Entity<Livro_AssuntoDb>().HasData(new Livro_AssuntoDb { Assunto_CodAs = 1, Livro_CodL = 1 });
+            modelBuilder.Entity<Livro_AutorDb>().HasData(new Livro_AutorDb { Autor_CodAu = 1, Livro_CodL = 1 });
 
-            _context.SaveChanges();
-            
         }
     }
 }

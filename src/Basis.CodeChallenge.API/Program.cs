@@ -3,16 +3,11 @@ using Basis.CodeChallenge.API.Filters;
 using Basis.CodeChallenge.API.Services;
 using Basis.CodeChallenge.API.Services.Interfaces;
 using Basis.CodeChallenge.API.ViewModels.Livro;
-using Basis.CodeChallenge.Domain.Interfaces;
 using Basis.CodeChallenge.Domain.Interfaces.Notifications;
 using Basis.CodeChallenge.Domain.Interfaces.Repository;
-using Basis.CodeChallenge.Domain.Interfaces.UoW;
-using Basis.CodeChallenge.Domain.Models;
 using Basis.CodeChallenge.Domain.Notifications;
-using Basis.CodeChallenge.Infra;
 using Basis.CodeChallenge.Infra.Context;
 using Basis.CodeChallenge.Infra.Repository;
-using Basis.CodeChallenge.Infra.UoW;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,11 +18,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using NSwag;
 using System.Collections.Concurrent;
 using System.Data.Common;
-using System.IO;
 using System.IO.Compression;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -69,40 +62,40 @@ var hostEnvironment = builder.Environment;
 //poetic license to academic environment
 //if (!hostEnvironment.IsProduction())
 //{
-    builder.Services.AddOpenApiDocument(document =>
-    {
-        document.DocumentName = "v1";
-        document.Version = "v1";
-        document.Title = "Felipe's CodeChallenge API";
-        document.Description = "API CodeChallenge";
+builder.Services.AddOpenApiDocument(document =>
+{
+    document.DocumentName = "v1";
+    document.Version = "v1";
+    document.Title = "Felipe's CodeChallenge API";
+    document.Description = "API CodeChallenge";
 
-        document.PostProcess = (configure) =>
+    document.PostProcess = (configure) =>
+    {
+        configure.Info.TermsOfService = "None";
+        configure.Info.Contact = new OpenApiContact()
         {
-            configure.Info.TermsOfService = "None";
-            configure.Info.Contact = new OpenApiContact()
-            {
-                Name = "Felipe",
-                Email = "neperz@gmail.com",
-                Url = "https://github.com/neperz/Basis.CodeChalenge"
-            };
-            configure.Info.License = new OpenApiLicense()
-            {
-                Name = "Free to copy",
-                Url = "https://felipe.wikicode.com.br"
-            };
+            Name = "Felipe",
+            Email = "neperz@gmail.com",
+            Url = "https://github.com/neperz/Basis.CodeChalenge"
         };
-    });
+        configure.Info.License = new OpenApiLicense()
+        {
+            Name = "Free to copy",
+            Url = "https://felipe.wikicode.com.br"
+        };
+    };
+});
 //}
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddAutoMapper(typeof(Basis.CodeChallenge.Infra.Mappings.DbMapper));
 builder.Services.AddScoped<IBasisLivroService, BasisLivroService>();
 builder.Services.AddSingleton(_ => new ConcurrentDictionary<int, BasisLivroViewModel>());
- 
+
 builder.Services.AddScoped<IDomainNotification, DomainNotification>();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddScoped<IBasisLivroRepository, LivroRepository>();
 
 
@@ -122,7 +115,7 @@ builder.Services.AddScoped<EntityContextSeed>();
 
 
 var app = builder.Build();
-app.MapGet("/ping", () => new { info = "pong"});
+app.MapGet("/ping", () => new { info = "pong" });
 
 //poetic license to academic environment
 //if (!hostEnvironment.IsProduction())
@@ -143,8 +136,8 @@ app.UseResponseCompression();
 //poetic license to academic environment
 //if (!hostEnvironment.IsProduction())
 //{
-    app.UseOpenApi();
-    app.UseSwaggerUi3();
+app.UseOpenApi();
+app.UseSwaggerUi3();
 //}
 
 

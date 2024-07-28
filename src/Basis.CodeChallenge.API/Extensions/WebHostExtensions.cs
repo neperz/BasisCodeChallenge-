@@ -1,6 +1,7 @@
 ﻿using Basis.CodeChallenge.Infra.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Basis.CodeChallenge.API.Extensions;
@@ -17,8 +18,9 @@ public static class WebHostExtensions
 
             var created = dbContext.Database.EnsureCreated();
         }
-        catch 
+        catch (Exception ex)
         {
+            Console.WriteLine(ex);
             //Just to avoid concurrent creation of the database between APIs
         }
       
@@ -32,7 +34,7 @@ public static class WebHostExtensions
         {
             using var scope = app.ApplicationServices.CreateScope();
             var seeder = scope.ServiceProvider.GetRequiredService<EntityContextSeed>();
-            seeder.SeedInitial();
+            
         }
         catch
         {
