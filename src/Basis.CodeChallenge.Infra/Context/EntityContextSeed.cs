@@ -24,16 +24,16 @@ public class EntityContextSeed
             //: balcão, self-service, internet, evento
             var precoOrigem =new List<PrecoOrigemDb> {
                 new PrecoOrigemDb { CoPo = 1, Livro_CodL = 1, Origem = "balcão", Valor = 1000, DateCreated = DateTime.Now } ,
-                    new PrecoOrigemDb { CoPo = 1, Livro_CodL = 1, Origem = "self-service", Valor = 500, DateCreated = DateTime.Now  }  ,
-                    new PrecoOrigemDb { CoPo = 1, Livro_CodL = 1, Origem = "self-service", Valor = 500, DateCreated = DateTime.Now }
+                    new PrecoOrigemDb { CoPo = 2, Livro_CodL = 1, Origem = "self-service", Valor = 500, DateCreated = DateTime.Now  }  ,
+                    new PrecoOrigemDb { CoPo = 3, Livro_CodL = 1, Origem = "self-service", Valor = 500, DateCreated = DateTime.Now }
                     };
 
             // Entities Data
-            modelBuilder.Entity<LivroDb>().HasData(precoOrigem);
+            
             modelBuilder.Entity<AssuntoDb>().HasData(assunto);
             modelBuilder.Entity<AutorDb>().HasData(autor);            
             modelBuilder.Entity<LivroDb>().HasData(livro);
-
+            modelBuilder.Entity<PrecoOrigemDb>().HasData(precoOrigem);
             modelBuilder.Entity<Livro_AssuntoDb>().HasData(new Livro_AssuntoDb { Assunto_CodAs = 1, Livro_CodL = 1 });
             modelBuilder.Entity<Livro_AutorDb>().HasData(new Livro_AutorDb { Autor_CodAu = 1, Livro_CodL = 1 });
             

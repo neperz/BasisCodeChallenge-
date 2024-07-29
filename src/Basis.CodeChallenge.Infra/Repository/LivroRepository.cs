@@ -12,11 +12,13 @@ namespace Basis.CodeChallenge.Infra.Repository
     public class LivroRepository : EntityBaseRepository<LivroDb>, IBasisLivroRepository
     {
         private readonly DapperContext _dapperContext;
+        private readonly EntityContext _entityContext;
 
         public LivroRepository(EntityContext context, DapperContext dapperContext)
             : base(context)
         {
             _dapperContext = dapperContext;
+            _entityContext= context;
         }
 
         public async Task<IEnumerable<LivroDb>> GetAllAsync()
@@ -57,12 +59,8 @@ namespace Basis.CodeChallenge.Infra.Repository
         }
 
         public async Task<LivroDb> GetByIdAsync(int id)
-        {
-            var query = @$"SELECT {nameof(LivroDb.CodL)}, {nameof(LivroDb.Titulo)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.AnoPublicacao)}, DateCreated
-                            FROM LivroDb
-                          WHERE {nameof(LivroDb.CodL)} = @Id";
-
-            return (await _dapperContext.DapperConnection.QueryAsync<LivroDb>(query, new { Id = id })).FirstOrDefault();
+        {       
+            return await  _entityContext.Livro.FindAsync(id); 
         }
     }
 }

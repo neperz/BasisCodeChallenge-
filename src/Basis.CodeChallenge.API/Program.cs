@@ -68,7 +68,7 @@ builder.Services.AddOpenApiDocument(document =>
     document.Version = "v1";
     document.Title = "Felipe's CodeChallenge API";
     document.Description = "API CodeChallenge";
-
+    
     document.PostProcess = (configure) =>
     {
         configure.Info.TermsOfService = "None";
@@ -83,6 +83,12 @@ builder.Services.AddOpenApiDocument(document =>
             Name = "Free to copy",
             Url = "https://felipe.wikicode.com.br"
         };
+        
+        configure.Servers.Add(new OpenApiServer
+        {
+            Url = "http://api:9999",
+            Description = "Nginx Proxy Server"
+        });
     };
 });
 //}
@@ -117,34 +123,30 @@ builder.Services.AddScoped<EntityContextSeed>();
 var app = builder.Build();
 app.MapGet("/ping", () => new { info = "pong" });
 
-//poetic license to academic environment
-//if (!hostEnvironment.IsProduction())
-//{
+ 
 app.UseDeveloperExceptionPage();
 app.UseDatabaseValidation();
 app.UseDatabaseSeed();
-//}
-//else
-//{
-//    app.UseHsts();
-//}
-
-app.UseRouting();
-//app.UseHttpsRedirection(); //poetic license to facilitate Docker configuration
+ 
+app.UseRouting(); 
 app.UseResponseCompression();
-
-//poetic license to academic environment
-//if (!hostEnvironment.IsProduction())
-//{
+ 
 app.UseOpenApi();
-//app.UseSwaggerUi3();
-//}
-//app.UseSwagger();
+
 app.UseSwaggerUI();
 
 
 app.MapControllers();
+app.UseCors(builder => builder
 
+                .SetIsOriginAllowed(_ => true)
+
+                //"http://api:9999",                
+                //)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+            );
 app.UseExceptionHandler(exceptionHandlerApp =>
 {
     exceptionHandlerApp.Run(context =>

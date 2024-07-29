@@ -17,22 +17,17 @@ public class DbMapper : Profile
             .ForMember(livro => livro.Autores, opt => opt.MapFrom(livro => livro.Autores))
             .ForMember(livro => livro.Assuntos, opt => opt.MapFrom(livro => livro.Assuntos)) 
             ;
-        //CreateMap<LivroDb, Livro>()
-        //    .ForMember(livro => livro.DateCreated, opt => opt.MapFrom(livro => new DateTime( livro.DateCreated)))
-        //    ;
+
 
 
         CreateMap<Autor, AutorDb>()
             .ForMember(autorDb => autorDb.Livros, opt => opt.MapFrom(autor => autor.Livros));
 
-        //CreateMap<AutorDb, Autor>()
-        //   .ForMember(Autor => Autor.DateCreated, opt => opt.MapFrom(Autor => new DateTime(Autor.DateCreated)))
-        //   ;
+
         CreateMap<Assunto, AssuntoDb>()
             .ForMember(assuntoDb => assuntoDb.Livros, opt => opt.MapFrom(assunto => assunto.Livro));
 
-        //CreateMap<AssuntoDb, Assunto>()
-        //.ForMember(Autor => Autor.DateCreated, opt => opt.MapFrom(Autor => new DateTime(Autor.DateCreated)));
+        CreateMap<PrecoOrigemDb , PrecoOrigem>();
 
     }
 }

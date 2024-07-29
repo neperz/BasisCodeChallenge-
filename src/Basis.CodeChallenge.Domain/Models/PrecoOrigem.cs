@@ -9,7 +9,7 @@ public class PrecoOrigem
     public string Origem { get; set; }
     public int Valor { get; set; } //centavos
 
-    public LivroDb Livro { get; set; }
+    public Livro Livro { get; set; }
 }
 
 

@@ -14,4 +14,6 @@ public interface IBasisLivroService
     Task<BasisLivroViewModel> AddAsync(BasisLivroViewModel BasisLivroVM);
     Task<BasisLivroViewModel> GetByEditoraAsync(BasisLivroEditoraViewModel BasisLivroVM);
     Task<BasisLivroViewModel> GetByTituloAsync(BasisLivroTituloViewModel BasisLivroVM);
+
+
 }

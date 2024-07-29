@@ -1,14 +1,12 @@
 version: "3.5"
 services: 
-  api01: &api
-    # image: zanfranceschi/rinha-api-2023
+  api01: &api   
     container_name: api01
     build: ../ 
     extra_hosts:
       - "host.docker.internal:host-gateway"    
     environment:      
-      - ConnectionStrings__USERDB=Data Source=/data/data.sqlite
-      - FileServiceOptions__FilePath=/data/dump_users.json 
+      - ConnectionStrings__USERDB=Data Source=/data/data.sqlite      
       - ASPNETCORE_URLS=http://*:5001;http://*:5000
       - DOTNET_GCConserveMemory=1
       - DOTNET_gcServer=1

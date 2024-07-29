@@ -217,10 +217,10 @@ public class LivroController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), 401)]
     [ProducesResponseType(typeof(ProblemDetails), 500)]
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteLivro([FromQuery] BasisLivroCodIdViewModel BasisLivro)
+    public async Task<ActionResult> DeleteLivro([FromRoute] int id)
     {
-
-        var BasisLivroVM = await _BasisLivroService.GetByIdAsync(BasisLivro);
+        BasisLivroCodIdViewModel BasisLivro = new BasisLivroCodIdViewModel {  CodL = id };
+        var BasisLivroVM = await _BasisLivroService.GetByIdAsync(BasisLivro); 
 
         if (BasisLivroVM == null)
         {

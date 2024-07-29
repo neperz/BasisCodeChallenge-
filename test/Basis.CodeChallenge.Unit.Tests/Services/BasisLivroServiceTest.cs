@@ -3,6 +3,7 @@ using Basis.CodeChallenge.API.ViewModels.Livro;
 using Basis.CodeChallenge.Core.Tests.Mocks;
 using Basis.CodeChallenge.Domain.Interfaces.Notifications;
 using Basis.CodeChallenge.Domain.Interfaces.Repository;
+using Basis.CodeChallenge.Domain.Models.Repository;
 using Basis.CodeChallenge.Unit.Tests.Configuration;
 using FluentAssertions;
 using Moq;
@@ -12,8 +13,7 @@ using System.Threading.Tasks;
 using Xunit;
 
 namespace Basis.CodeChallenge.Unit.Tests.Services
-{
-    // TODO: bonus - Add Unit testing to the project so that the main methods can be tested by the developer
+{ 
     public class BasisLivroServiceTest : ConfigBase
     {
         private readonly Mock<IBasisLivroRepository> _BasisLivroRepositoryMock;
@@ -137,11 +137,9 @@ namespace Basis.CodeChallenge.Unit.Tests.Services
         [Fact]
         public async Task Add_ReturnBasisLivroViewModelTestAsync()
         {
-            // Arrange
+            // Arrange 
             var BasisLivro = BasisLivroMock.BasisLivroViewModelFaker.Generate();
-
-            _BasisLivroRepositoryMock.Setup(x => x.GetByTituloAsync(BasisLivro.Titulo))
-                .ReturnsAsync(BasisLivroMock.BasisLivroModelFaker.Generate());
+            _BasisLivroRepositoryMock.Setup(x => x.Add(It.IsAny<LivroDb>()));
 
             // Act
             await GetBasisLivroService().AddAsync(BasisLivro);
@@ -155,6 +153,7 @@ namespace Basis.CodeChallenge.Unit.Tests.Services
         {
             // Arrange
             var BasisLivro = BasisLivroMock.BasisLivroViewModelFaker.Generate();
+            _BasisLivroRepositoryMock.Setup(x => x.Update(It.IsAny<LivroDb>()));
 
             // Act
             await GetBasisLivroService().UpdateAsync(BasisLivro);
@@ -168,7 +167,7 @@ namespace Basis.CodeChallenge.Unit.Tests.Services
         {
             // Arrange
             var BasisLivro = BasisLivroMock.BasisLivroViewModelFaker.Generate();
-
+            _BasisLivroRepositoryMock.Setup(x => x.Remove(It.IsAny<LivroDb>()));
             // Act
             await GetBasisLivroService().RemoveAsync(BasisLivro);
 
