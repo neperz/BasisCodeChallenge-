@@ -3,22 +3,24 @@ using Basis.CodeChallenge.Domain.Models.Repository;
 using Basis.CodeChallenge.Infra.Repository.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace Basis.CodeChallenge.Infra.Repository.Configurations
 {
-    internal class AutorConfiguration : IEntityTypeConfiguration<AutorDb>
+    internal class PrecoOrigemConfiguration : IEntityTypeConfiguration<PrecoOrigemDb>
     {
-        public void Configure(EntityTypeBuilder<AutorDb> builder)
+        public void Configure(EntityTypeBuilder<PrecoOrigemDb> builder)
         {
-            builder.ToTable("AutorDb");
-            builder.HasKey(u => u.CodAu);
-            builder.Property(u => u.CodAu).HasColumnType("integer COLLATE BINARY")
+            builder.ToTable("PrecoOrigem");
+            builder.HasKey(u => u.CoPo);
+            builder.Property(u => u.CoPo).HasColumnType("integer COLLATE BINARY")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
-            builder.Property(x => x.Nome)
+            builder.Property(x => x.Origem)
                 .HasColumnType("varchar COLLATE BINARY")
-                .HasMaxLength(40)
+                .HasMaxLength(100)
             .IsRequired();
+            builder.Property(e => e.Valor).IsRequired();
 
             builder.Property(u => u.DateCreated).HasColumnType("bigint COLLATE BINARY").HasConversion(new UnixDateTimeConverter());
 

@@ -9,9 +9,11 @@ namespace Basis.CodeChallenge.Infra.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<AssuntoDb> builder)
         {
-            builder.ToTable("Assunto");
+            builder.ToTable("AssuntoDb");
             builder.HasKey(u => u.CodAs);
-            builder.Property(u => u.CodAs).HasColumnType("integer COLLATE BINARY").IsRequired();
+            builder.Property(u => u.CodAs).HasColumnType("integer COLLATE BINARY").IsRequired()
+                 .ValueGeneratedOnAdd();
+            ;
             builder.Property(x => x.Descricao)
                 .HasColumnType("varchar COLLATE BINARY")
                 .HasMaxLength(40)

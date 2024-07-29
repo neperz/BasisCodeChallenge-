@@ -1,22 +1,23 @@
 ﻿using Bogus;
 using Basis.CodeChallenge.API.ViewModels.Livro;
 using Basis.CodeChallenge.Domain.Models;
+using Basis.CodeChallenge.Domain.Models.Repository;
 
 
 namespace Basis.CodeChallenge.Core.Tests.Mocks
 {
     public static class BasisLivroMock
     {
-        public static Faker<Livro> BasisLivroModelFaker =>
-            new Faker<Livro>()
-            .CustomInstantiator(x => new Livro
-            (
-                codL: x.Random.Int(),
-                 titulo: x.Person.FirstName,
-                editora: x.Person.LastName,
-                edicao: x.Random.Int(),
-                anoPublicacao: x.Random.Int().ToString()
-            ));
+        public static Faker<LivroDb> BasisLivroModelFaker =>
+            new Faker<LivroDb>()
+            .CustomInstantiator(x => new LivroDb
+            {
+                CodL= x.Random.Int(),
+                 Titulo= x.Person.FirstName,
+                Editora= x.Person.LastName,
+                Edicao= x.Random.Int(),
+                AnoPublicacao= x.Random.Int().ToString()
+            });
 
 
         public static Faker<BasisLivroViewModel> BasisLivroViewModelFaker =>

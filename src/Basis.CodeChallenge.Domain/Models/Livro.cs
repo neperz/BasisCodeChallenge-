@@ -8,6 +8,7 @@ public class Livro
     protected Livro() {
         Assuntos = new HashSet<Assunto>();
         Autores = new HashSet<Autor>();
+        PrecosOrigem = new HashSet<PrecoOrigem>();
     }
 
     public Livro(int codL, string titulo, string editora, int edicao, string anoPublicacao) : this( titulo, editora, edicao, anoPublicacao)
@@ -30,6 +31,7 @@ public class Livro
     public string AnoPublicacao { get; private set; }
     public virtual ICollection<Assunto> Assuntos { get; set; }
     public virtual ICollection<Autor> Autores { get; set; }
+    public virtual ICollection<PrecoOrigem> PrecosOrigem { get; set; }
     public DateTime DateCreated { get; private set; }
 
 }

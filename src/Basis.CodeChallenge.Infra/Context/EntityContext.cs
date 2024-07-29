@@ -1,24 +1,25 @@
-﻿using Basis.CodeChallenge.Domain.Interfaces;
-using Basis.CodeChallenge.Domain.Models;
+﻿using Basis.CodeChallenge.Domain.Models;
+using Basis.CodeChallenge.Domain.Models.Repository;
 using Basis.CodeChallenge.Infra.Repository.Configurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using System.Reflection.Emit;
 using static Basis.CodeChallenge.Infra.Context.EntityContextSeed;
 
 namespace Basis.CodeChallenge.Infra.Context;
 
 public class EntityContext : DbContext
 {
- 
+
     public EntityContext(DbContextOptions<EntityContext> options)
          : base(options)
     {
-    
+
     }
 
-    public DbSet<Livro> BasisLivros { get; set; }
+    public DbSet<LivroDb> Livro { get; set; }
+    public DbSet<AutorDb> Autor { get; set; }
+    public DbSet<AssuntoDb> Assunto { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,6 +27,7 @@ public class EntityContext : DbContext
         modelBuilder.ApplyConfiguration(new AutorConfiguration());
         modelBuilder.ApplyConfiguration(new AssuntoConfiguration());
         modelBuilder.ApplyConfiguration(new LivroConfiguration());
+        modelBuilder.ApplyConfiguration(new PrecoOrigemConfiguration());
         SeedDataFactory.SeedData(modelBuilder);
     }
 

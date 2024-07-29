@@ -3,6 +3,7 @@ using Basis.CodeChallenge.Domain.Models.Repository;
 using Basis.CodeChallenge.Infra.Repository.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using static Dapper.SqlMapper;
 
 namespace Basis.CodeChallenge.Infra.Repository.Configurations
 {
@@ -15,11 +16,13 @@ namespace Basis.CodeChallenge.Infra.Repository.Configurations
     {
         public void Configure(EntityTypeBuilder<LivroDb> builder)
         {
-            builder.ToTable("Livro");
+            builder.ToTable("LivroDb");
 
 
             builder.HasKey(u => u.CodL);
-            builder.Property(u => u.CodL).HasColumnType("integer COLLATE BINARY").IsRequired();
+            builder.Property(u => u.CodL).HasColumnType("integer COLLATE BINARY")
+                //.ValueGeneratedOnAdd()
+                .IsRequired();
 
             builder.Property(x => x.Titulo)
                 .HasColumnType("varchar COLLATE BINARY")
@@ -79,6 +82,13 @@ namespace Basis.CodeChallenge.Infra.Repository.Configurations
                         j.ToTable("Livro_AutorDb");
                         j.HasKey(gp => new { gp.Autor_CodAu, gp.Livro_CodL });
                     });
+
+
+                builder.HasMany(e => e.PrecosOrigem)
+                       .WithOne(p => p.CodLivroNavigationLivro)
+                       .HasForeignKey(p => p.Livro_CodL)
+                       .HasConstraintName("Livro_Origem_FkINdex")
+                       ;
 
 
         }

@@ -15,7 +15,8 @@ O código deve ser disponibilizado em repositório GIT de sua preferência e acesso
 	O banco de dados é o de sua preferência. A utilização de camada de persistência também é escolha sua.
 
 Instruções:
-Deve ser feito CRUD para Livro, Autor e Assunto conforme o modelo de dados.
+Deve ser feito CRUD para Livro, Autor e 
+conforme o modelo de dados.
 A tela inicial pode ter um menu simples ou mesmo links direto para as telas construídas.
 O modelo do banco deve ser seguido integralmente, salvo para ajustes de melhoria de performance.
 A interface pode ser simples, mas precisa utilizar algum CSS que comande no mínimo a cor e tamanho dos componentes em tela (utilização do bootstrap será um diferencial).

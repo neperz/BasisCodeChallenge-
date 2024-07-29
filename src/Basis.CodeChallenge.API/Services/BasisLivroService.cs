@@ -74,7 +74,12 @@ public class BasisLivroService : IBasisLivroService
             _domainNotification.AddNotifications(validation);
             return viewModel;
         }
+        model.Assuntos = new List<Assunto> { new Assunto("Ficao") };
+        model.Autores = new List<Autor> { new Autor("Oscar") };
         var dbModel = _mapper.Map<LivroDb>(model);
+
+     
+
         _BasisLivroRepository.Add(dbModel);
         _cache.TryAdd(model.CodL, BasisLivroVM);
       

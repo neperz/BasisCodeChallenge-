@@ -1,20 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ProjectGuid>{235a01d9-9748-4f0b-a7c4-a05b1b1ce70b}</ProjectGuid>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="FluentValidation" Version="11.2.0" />
-    <PackageReference Include="System.Text.Json" Version="6.0.5" />
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="FluentValidation" Version="11.9.2" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>
-	<Target Name="PostClean" AfterTargets="Clean">
-		<RemoveDir Directories="$(BaseIntermediateOutputPath)" />
-		<!-- obj -->
-		<RemoveDir Directories="$(BaseOutputPath)" />
-		<!-- bin -->
-	</Target>
-  
+  <Target Name="PostClean" AfterTargets="Clean">
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <!-- obj -->
+    <RemoveDir Directories="$(BaseOutputPath)" />
+    <!-- bin -->
+  </Target>
 </Project>

@@ -14,5 +14,6 @@ namespace Basis.CodeChallenge.Domain.Models.Repository
         public DateTime DateCreated { get;  set; }
         public List<AssuntoDb> Assuntos { get; set; }
         public List<AutorDb> Autores { get; set; }
+        public List<PrecoOrigemDb> PrecosOrigem { get; set; }
     }
 }

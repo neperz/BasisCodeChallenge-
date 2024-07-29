@@ -137,8 +137,10 @@ app.UseResponseCompression();
 //if (!hostEnvironment.IsProduction())
 //{
 app.UseOpenApi();
-app.UseSwaggerUi3();
+//app.UseSwaggerUi3();
 //}
+//app.UseSwagger();
+app.UseSwaggerUI();
 
 
 app.MapControllers();
