@@ -15,7 +15,8 @@ public class DbMapper : Profile
         
         CreateMap<Livro, LivroDb>()
             .ForMember(livro => livro.Autores, opt => opt.MapFrom(livro => livro.Autores))
-            .ForMember(livro => livro.Assuntos, opt => opt.MapFrom(livro => livro.Assuntos)) 
+            .ForMember(livro => livro.Assuntos, opt => opt.MapFrom(livro => livro.Assuntos))
+            .ForMember(livro => livro.PrecosOrigem, opt => opt.MapFrom(livro => livro.PrecosOrigem))
             ;
 
 

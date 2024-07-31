@@ -2,6 +2,7 @@
 using Basis.CodeChallenge.Domain.Models.Repository;
 using Basis.CodeChallenge.Infra.Context;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Basis.CodeChallenge.Infra.Repository
 
         public async Task<IEnumerable<LivroDb>> GetAllAsync()
         {
-            var query = @$"SELECT {nameof(LivroDb.CodL)}, {nameof(LivroDb.Titulo)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.AnoPublicacao)}, DateCreated
+            var query = @$"SELECT {nameof(LivroDb.CodL)}, {nameof(LivroDb.Titulo)}, {nameof(LivroDb.Editora)}, {nameof(LivroDb.Edicao)}, {nameof(LivroDb.AnoPublicacao)}, DateCreated
                             FROM LivroDb c";
             using (var connection = _dapperContext.DapperConnection)
             {
@@ -60,7 +61,7 @@ namespace Basis.CodeChallenge.Infra.Repository
 
         public async Task<LivroDb> GetByIdAsync(int id)
         {       
-            return await  _entityContext.Livro.FindAsync(id); 
+            return await  _entityContext.Livro.AsNoTracking().FirstOrDefaultAsync(x=>x.CodL==id); 
         }
     }
 }

@@ -59,8 +59,9 @@ public class LivroController : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails), 401)]
     [ProducesResponseType(typeof(ProblemDetails), 500)]
     [HttpGet("{id}")]
-    public async Task<ActionResult<BasisLivroViewModel>> GetById([FromQuery] BasisLivroCodIdViewModel BasisLivro)
+    public async Task<ActionResult<BasisLivroViewModel>> GetById([FromRoute] int id)
     {
+        BasisLivroCodIdViewModel BasisLivro = new BasisLivroCodIdViewModel { CodL = id };
         var BasisLivroVM = await _BasisLivroService.GetByIdAsync(BasisLivro);
 
         if (BasisLivroVM == null)
